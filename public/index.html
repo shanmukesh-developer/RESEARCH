@@ -150,6 +150,24 @@
         .couple-cap{font-family:'Great Vibes',cursive;font-size:clamp(1.8rem,6vw,3.2rem);color:#ffb4c8;margin-bottom:20px;opacity:0;transform:translateY(15px);transition:opacity 2.5s 1s ease,transform 2.5s 1s ease;text-shadow:0 0 25px rgba(255,107,138,0.5)}
         .couple-wrap.on+.couple-cap{opacity:1;transform:translateY(0)}
 
+        /* Wax-Sealed Love Letter Modal */
+        #envelopeBtn{margin-top:20px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.3);color:#ffd700;font-family:'Cormorant Garamond',serif;font-size:1rem;padding:12px 32px;border-radius:30px;cursor:pointer;letter-spacing:2px;opacity:0;transition:opacity 2s,transform 0.3s,box-shadow 0.3s}
+        #ending.seen #envelopeBtn{opacity:1}
+        #envelopeBtn:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(255,215,0,0.3)}
+
+        #letterModal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.85);backdrop-filter:blur(15px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.6s ease}
+        #letterModal.open{opacity:1;pointer-events:auto}
+        .parchment{position:relative;max-width:540px;width:100%;max-height:85vh;overflow-y:auto;background:linear-gradient(145deg,rgba(30,22,40,0.96),rgba(15,10,25,0.96));border:1px solid rgba(255,215,0,0.4);border-radius:24px;padding:36px 28px;box-shadow:0 0 60px rgba(255,215,0,0.2),0 0 100px rgba(255,107,138,0.1);color:#ffe4d0;text-align:center;transform:scale(0.88);transition:transform 0.6s ease}
+        #letterModal.open .parchment{transform:scale(1)}
+        .wax-seal{width:56px;height:56px;border-radius:50%;background:radial-gradient(circle,#ff4060,#b01030);margin:0 auto 20px;box-shadow:0 0 25px rgba(255,60,100,0.6);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#ffd700;border:2px solid rgba(255,215,0,0.5)}
+        .letter-title{font-family:'Great Vibes',cursive;font-size:clamp(2rem,6vw,3.2rem);color:#ffd700;margin-bottom:16px;text-shadow:0 0 20px rgba(255,215,0,0.4)}
+        .letter-body{font-size:clamp(1rem,2.8vw,1.22rem);font-style:italic;line-height:2.2;font-weight:300;color:rgba(255,255,255,0.9)}
+        .close-letter-btn{margin-top:28px;background:transparent;border:1px solid rgba(255,215,0,0.4);color:#ffd700;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:3px;padding:10px 28px;border-radius:30px;cursor:pointer;text-transform:uppercase}
+
+        /* Darkhaast Synchronized Subtitles */
+        #lyricsOverlay{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:99;font-family:'Cormorant Garamond',serif;font-size:clamp(0.9rem,2.5vw,1.15rem);font-style:italic;color:rgba(255,215,0,0.85);text-shadow:0 0 12px rgba(255,215,0,0.4);pointer-events:none;opacity:0;transition:opacity 1.5s;text-align:center;padding:0 20px}
+        #lyricsOverlay.on{opacity:1}
+
         /* Visit counter */
         .vc{margin-top:30px;font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:200;letter-spacing:3px;color:rgba(255,255,255,.25);opacity:0;transition:opacity 3s 2s}
         .ft.on~.vc{opacity:1}
@@ -165,6 +183,7 @@
 <div id="cGlow"></div>
 <div id="prog"></div>
 <canvas id="musicPulse"></canvas>
+<div id="lyricsOverlay">"Darkhaast hai yeh… paas aao…"</div>
 
 <div id="prelude">
     <div class="pre-star"><div class="rays"></div><div class="core"></div></div>
@@ -285,6 +304,7 @@
     <div id="ending" class="sec">
         <p class="wl" id="wL">watch the stars…</p>
         <button id="lastBtn">One Last Thing…</button>
+        <button id="envelopeBtn">✉️ Open Secret Letter 📜</button>
     </div>
 
     <div id="finale" class="sec">
@@ -304,6 +324,22 @@
         </div>
 
         <p class="vc" id="vc"></p>
+    </div>
+</div>
+
+<!-- Parchment Letter Modal -->
+<div id="letterModal">
+    <div class="parchment">
+        <div class="wax-seal">💌</div>
+        <div class="letter-title">My Dearest Kavya,</div>
+        <div class="letter-body">
+            "From the very first moment you walked into my life, everything became brighter, kinder, and infinitely more beautiful.<br><br>
+            You are the quiet thought in my busy days, the warmth in my coldest moments, and the reason my heart smiles without saying a word.<br><br>
+            Thank you for being my strength, my laughter, and my favorite chapter of life.<br><br>
+            Forever yours,<br>
+            Shanmukh ❤️"
+        </div>
+        <button class="close-letter-btn" id="closeLetterBtn">Close Letter ✨</button>
     </div>
 </div>
 
@@ -381,7 +417,22 @@ let petalTimer=0;
    CURSOR + TOUCH HEARTS
    ═══════════════════════════════════════ */
 const $d=document.getElementById('cDot'),$g=document.getElementById('cGlow');
-function onPtr(e){const px=e.clientX||e.touches?.[0]?.clientX||mX;const py=e.clientY||e.touches?.[0]?.clientY||mY;mX=px;mY=py;$d.style.left=$g.style.left=px+'px';$d.style.top=$g.style.top=py+'px';if(phase!=='prelude'&&Math.random()<.35)sparkles.push({x:px+(Math.random()-.5)*8,y:py+(Math.random()-.5)*8,r:Math.random()*2+.5,life:1,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2-.5,h:35+Math.random()*25})}
+function onPtr(e){
+    const px=e.clientX||e.touches?.[0]?.clientX||mX;
+    const py=e.clientY||e.touches?.[0]?.clientY||mY;
+    mX=px;mY=py;
+    $d.style.left=$g.style.left=px+'px';
+    $d.style.top=$g.style.top=py+'px';
+    if(phase!=='prelude'){
+        if(Math.random()<.35)sparkles.push({x:px+(Math.random()-.5)*8,y:py+(Math.random()-.5)*8,r:Math.random()*2+.5,life:1,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2-.5,h:35+Math.random()*25});
+        /* Constellation Painter — spawn stars on drag */
+        if(scrollOK && Math.random()<.3 && stars.length<600){
+            const s=new Star(px+(Math.random()-.5)*14, py+sY+(Math.random()-.5)*14);
+            s.o=0.8;s.pk=1;s.r=Math.random()*1.8+1;
+            stars.push(s);
+        }
+    }
+}
 addEventListener('mousemove',onPtr);
 addEventListener('touchmove',e=>{
     if(!scrollOK) e.preventDefault();
@@ -412,7 +463,25 @@ function initAudio(){
     let v=0;const fi=setInterval(()=>{v+=.015;if(v>=.85){v=.85;clearInterval(fi)}bgm.volume=v},60);
     document.getElementById('musicPulse').classList.add('on');
 }
-bgm.addEventListener('timeupdate',()=>{if(bgm.currentTime<44&&bgm.loop)bgm.currentTime=44});
+const LYRICS = [
+    { t: 44, txt: '"Is baarish mein tum sang ho…"' },
+    { t: 50, txt: '"Darkhaast hai yeh… paas aao…"' },
+    { t: 58, txt: '"Aagosh mein tum lene do…"' },
+    { t: 66, txt: '"Meri saanson mein basi ho tum…"' },
+    { t: 76, txt: '"Kavya… you are my world ❤️"' }
+];
+const $lyr = document.getElementById('lyricsOverlay');
+bgm.addEventListener('timeupdate', () => {
+    if (bgm.currentTime < 44 && bgm.loop) bgm.currentTime = 44;
+    if (phase !== 'prelude' && $lyr) {
+        const ct = bgm.currentTime;
+        const cur = LYRICS.slice().reverse().find(l => ct >= l.t);
+        if (cur) {
+            $lyr.textContent = cur.txt;
+            $lyr.classList.add('on');
+        }
+    }
+});
 
 function drawVisualizer(){
     if(!analyser)return;analyser.getByteFrequencyData(freqData);
@@ -529,6 +598,25 @@ if ($rBtn) {
         $rMsg.style.opacity = '1';
         $rBtn.disabled = true;
         $rBtn.style.opacity = '0.6';
+    });
+}
+
+/* Parchment Letter Modal Handlers */
+const $lModal = document.getElementById('letterModal');
+const $envBtn = document.getElementById('envelopeBtn');
+const $clsBtn = document.getElementById('closeLetterBtn');
+
+if ($envBtn) {
+    $envBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        $lModal.classList.add('open');
+        for(let i=0;i<12;i++) tapHearts(W/2, H/2);
+    });
+}
+if ($clsBtn) {
+    $clsBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        $lModal.classList.remove('open');
     });
 }
 
