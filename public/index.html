@@ -145,20 +145,28 @@
         .time-ticker{font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:3px;color:rgba(255,215,0,0.7);text-transform:uppercase;margin-top:14px;font-weight:200;opacity:0;transition:opacity 2s 1s}
         .gf-t.on~.time-ticker{opacity:1}
 
-        /* Couple Photo Finale */
-        .couple-wrap{position:relative;max-width:340px;width:78vw;padding:4px;border-radius:24px;background:conic-gradient(from var(--ba),rgba(255,107,138,0.7),rgba(255,215,0,0.7),rgba(255,140,180,0.7),rgba(255,215,0,0.7));animation:bs 3s linear infinite;opacity:0;transform:scale(0.85) translateY(30px);transition:opacity 3s ease,transform 3s ease;box-shadow:0 0 50px rgba(255,107,138,0.3),0 0 100px rgba(255,215,0,0.15);margin-bottom:32px}
+        /* Couple Photo Finale Slider */
+        .couple-wrap{position:relative;max-width:340px;width:78vw;padding:4px;border-radius:24px;background:conic-gradient(from var(--ba),rgba(255,107,138,0.7),rgba(255,215,0,0.7),rgba(255,140,180,0.7),rgba(255,215,0,0.7));animation:bs 3s linear infinite;opacity:0;transform:scale(0.85) translateY(30px);transition:opacity 3s ease,transform 3s ease;box-shadow:0 0 50px rgba(255,107,138,0.3),0 0 100px rgba(255,215,0,0.15);margin-bottom:20px;cursor:pointer}
         .couple-wrap.on{opacity:1;transform:scale(1) translateY(0)}
-        .couple-wrap .inn{border-radius:22px;overflow:hidden;background:#000}
-        .couple-wrap img{display:block;width:100%;height:auto;border-radius:22px;animation:kb 20s ease-in-out infinite alternate}
+        .couple-wrap .inn{position:relative;border-radius:22px;overflow:hidden;background:#000;aspect-ratio:4/5}
+        .couple-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:22px;opacity:0;transition:opacity 1.5s ease-in-out;animation:kb 20s ease-in-out infinite alternate}
+        .couple-wrap img.active{opacity:1}
+        .c-dots{display:flex;justify-content:center;gap:8px;margin-bottom:16px;opacity:0;transition:opacity 2s 1s}
+        .couple-wrap.on~.c-dots{opacity:1}
+        .c-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.4s,transform 0.4s}
+        .c-dot.active{background:#ffd700;transform:scale(1.3);box-shadow:0 0 10px #ffd700}
         .couple-cap{font-family:'Great Vibes',cursive;font-size:clamp(1.8rem,6vw,3.2rem);color:#ffb4c8;margin-bottom:20px;opacity:0;transform:translateY(15px);transition:opacity 2.5s 1s ease,transform 2.5s 1s ease;text-shadow:0 0 25px rgba(255,107,138,0.5)}
-        .couple-wrap.on+.couple-cap{opacity:1;transform:translateY(0)}
+        .couple-wrap.on~.couple-cap{opacity:1;transform:translateY(0)}
 
         /* Video Memory Reel */
         .video-wrap{position:relative;max-width:340px;width:80vw;border-radius:24px;overflow:hidden;padding:3px;background:conic-gradient(from var(--ba),rgba(255,215,0,0.6),rgba(255,107,138,0.5),rgba(180,160,255,0.5),rgba(255,215,0,0.6));animation:bs 4s linear infinite;box-shadow:0 0 50px rgba(255,107,138,0.25);margin:0 auto}
         .video-wrap video{display:block;width:100%;height:auto;border-radius:22px;background:#000}
-        .video-play-btn{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:10;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,215,0,0.4);color:#ffd700;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:2px;padding:8px 20px;border-radius:30px;cursor:pointer;white-space:nowrap;transition:transform 0.3s}
+        .video-play-btn{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:10;background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);border:1px solid rgba(255,215,0,0.4);color:#ffd700;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:2px;padding:8px 20px;border-radius:30px;cursor:pointer;white-space:nowrap;transition:transform 0.3s}
         .video-play-btn:hover{transform:translateX(-50%) scale(1.05)}
-        .video-cap{margin-top:20px;font-size:clamp(0.9rem,2.6vw,1.15rem);font-style:italic;color:rgba(255,255,255,0.8);font-family:'Outfit',sans-serif;letter-spacing:1px}
+        .v-dots{display:flex;justify-content:center;gap:10px;margin-top:16px}
+        .v-dot{background:rgba(255,255,255,0.08);border:1px solid rgba(255,215,0,0.3);color:rgba(255,255,255,0.7);font-family:'Outfit',sans-serif;font-size:0.7rem;letter-spacing:1px;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all 0.3s}
+        .v-dot.active{background:rgba(255,215,0,0.25);border-color:#ffd700;color:#ffd700;box-shadow:0 0 12px rgba(255,215,0,0.3)}
+        .video-cap{margin-top:16px;font-size:clamp(0.9rem,2.6vw,1.15rem);font-style:italic;color:rgba(255,255,255,0.8);font-family:'Outfit',sans-serif;letter-spacing:1px}
 
         /* Wax-Sealed Love Letter Modal */
         #envelopeBtn{margin-top:20px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.3);color:#ffd700;font-family:'Cormorant Garamond',serif;font-size:1rem;padding:12px 32px;border-radius:30px;cursor:pointer;letter-spacing:2px;opacity:0;transition:opacity 2s,transform 0.3s,box-shadow 0.3s}
@@ -314,11 +322,15 @@
     <!-- Video Memory Reel Section -->
     <div class="sec video-sec" id="videoSec">
         <div class="video-wrap">
-            <video id="coupleVideo" playsinline loop muted poster="us.jpg">
-                <source src="video.mp4" type="video/mp4">
-                <source src="our_video.mp4" type="video/mp4">
+            <video id="coupleVideo" playsinline loop poster="us1.png">
+                <source id="vidSrc" src="video2.mp4" type="video/mp4">
             </video>
             <button class="video-play-btn" id="vidPlayBtn">▶ Play Memory Video 🎥</button>
+        </div>
+        <div class="v-dots">
+            <button class="v-dot active" onclick="switchVideo(0)">Video 1 🎬</button>
+            <button class="v-dot" onclick="switchVideo(1)">Video 2 🎥</button>
+            <button class="v-dot" onclick="switchVideo(2)">Video 3 ✨</button>
         </div>
         <p class="video-cap">Every moment with you is a movie I want to rewatch forever 🎬</p>
     </div>
@@ -330,10 +342,17 @@
     </div>
 
     <div id="finale" class="sec">
-        <div class="couple-wrap" id="cWrap">
+        <div class="couple-wrap" id="cWrap" onclick="nextCoupleSlide()">
             <div class="inn">
-                <img id="cImg" src="us.png" onerror="if(this.src.indexOf('us.jpg')===-1)this.src='us.jpg';" alt="Us ❤️" loading="lazy">
+                <img class="c-slide active" src="us1.png" alt="Us 1 ❤️" loading="lazy">
+                <img class="c-slide" src="us2.png" alt="Us 2 ❤️" loading="lazy">
+                <img class="c-slide" src="us.jpg" onerror="if(this.src.indexOf('us.png')===-1)this.src='us.png';" alt="Us 3 ❤️" loading="lazy">
             </div>
+        </div>
+        <div class="c-dots">
+            <div class="c-dot active" onclick="setCoupleSlide(0)"></div>
+            <div class="c-dot" onclick="setCoupleSlide(1)"></div>
+            <div class="c-dot" onclick="setCoupleSlide(2)"></div>
         </div>
         <div class="couple-cap" id="cCap">You & Me — Forever & Always ❤️</div>
         <p class="ft" id="fM">"If I could give you one thing in life,<br>it would be the ability to see yourself through my eyes.<br><br>Then you'd know how truly wonderful you are.<br><br>Happy Girlfriend's Day.<br><br>Thank you for being the best part of my world. ❤️"</p>
@@ -602,9 +621,33 @@ $lB.addEventListener('click',()=>{
         document.getElementById('finale').scrollIntoView({behavior:'smooth'});
         const $cW = document.getElementById('cWrap');
         if($cW) $cW.classList.add('on');
+        startCoupleSlider();
         setTimeout(()=>$fM.classList.add('on'), 1800);
     },3200);
 });
+
+/* Couple Photo Slider JS */
+let cSlideIdx = 0;
+let cSlideTimer = null;
+
+function setCoupleSlide(idx) {
+    const slides = document.querySelectorAll('.c-slide');
+    const dots = document.querySelectorAll('.c-dot');
+    if (!slides.length) return;
+    cSlideIdx = (idx + slides.length) % slides.length;
+    slides.forEach((s, i) => s.classList.toggle('active', i === cSlideIdx));
+    dots.forEach((d, i) => d.classList.toggle('active', i === cSlideIdx));
+    haptic();
+}
+
+function nextCoupleSlide() {
+    setCoupleSlide(cSlideIdx + 1);
+}
+
+function startCoupleSlider() {
+    if (cSlideTimer) clearInterval(cSlideTimer);
+    cSlideTimer = setInterval(nextCoupleSlide, 4500);
+}
 
 /* Music Toggle Button */
 const $mBtn = document.getElementById('musicBtn');
@@ -639,13 +682,34 @@ if ($rBtn) {
     });
 }
 
-/* Video Play Handler */
+/* Video Play & Switch Handler */
+const V_LIST = ['video2.mp4', 'video1.mp4', 'video3.mp4'];
+let vIdx = 0;
+
+function switchVideo(idx) {
+    vIdx = idx;
+    const $v = document.getElementById('coupleVideo');
+    const $s = document.getElementById('vidSrc');
+    const $btn = document.getElementById('vidPlayBtn');
+    const dots = document.querySelectorAll('.v-dot');
+    if ($v && $s) {
+        $s.src = V_LIST[vIdx];
+        $v.load();
+        $v.play().then(() => {
+            if ($btn) $btn.textContent = '⏸ Pause Video';
+        }).catch(() => {
+            if ($btn) $btn.textContent = '▶ Play Memory Video 🎥';
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === vIdx));
+    }
+    haptic();
+}
+
 const $vid = document.getElementById('coupleVideo'), $vBtn = document.getElementById('vidPlayBtn');
 if ($vid && $vBtn) {
     $vBtn.addEventListener('click', e => {
         e.stopPropagation();
         if ($vid.paused) {
-            $vid.muted = false;
             $vid.play().then(() => {
                 $vBtn.textContent = '⏸ Pause Video';
             }).catch(() => {
