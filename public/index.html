@@ -153,6 +153,13 @@
         .couple-cap{font-family:'Great Vibes',cursive;font-size:clamp(1.8rem,6vw,3.2rem);color:#ffb4c8;margin-bottom:20px;opacity:0;transform:translateY(15px);transition:opacity 2.5s 1s ease,transform 2.5s 1s ease;text-shadow:0 0 25px rgba(255,107,138,0.5)}
         .couple-wrap.on+.couple-cap{opacity:1;transform:translateY(0)}
 
+        /* Video Memory Reel */
+        .video-wrap{position:relative;max-width:340px;width:80vw;border-radius:24px;overflow:hidden;padding:3px;background:conic-gradient(from var(--ba),rgba(255,215,0,0.6),rgba(255,107,138,0.5),rgba(180,160,255,0.5),rgba(255,215,0,0.6));animation:bs 4s linear infinite;box-shadow:0 0 50px rgba(255,107,138,0.25);margin:0 auto}
+        .video-wrap video{display:block;width:100%;height:auto;border-radius:22px;background:#000}
+        .video-play-btn{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:10;background:rgba(0,0,0,0.7);backdrop-filter:blur(10px);border:1px solid rgba(255,215,0,0.4);color:#ffd700;font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:2px;padding:8px 20px;border-radius:30px;cursor:pointer;white-space:nowrap;transition:transform 0.3s}
+        .video-play-btn:hover{transform:translateX(-50%) scale(1.05)}
+        .video-cap{margin-top:20px;font-size:clamp(0.9rem,2.6vw,1.15rem);font-style:italic;color:rgba(255,255,255,0.8);font-family:'Outfit',sans-serif;letter-spacing:1px}
+
         /* Wax-Sealed Love Letter Modal */
         #envelopeBtn{margin-top:20px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.3);color:#ffd700;font-family:'Cormorant Garamond',serif;font-size:1rem;padding:12px 32px;border-radius:30px;cursor:pointer;letter-spacing:2px;opacity:0;transition:opacity 2s,transform 0.3s,box-shadow 0.3s}
         #ending.seen #envelopeBtn{opacity:1}
@@ -303,6 +310,18 @@
 
     <div class="sec qs" data-q="&quot;You are my today and all of my tomorrows.&quot;"><div class="qw"></div></div>
     <div class="sec qs" data-q="&quot;I fell in love with your soul before I could even touch your skin.&quot;"><div class="qw"></div></div>
+
+    <!-- Video Memory Reel Section -->
+    <div class="sec video-sec" id="videoSec">
+        <div class="video-wrap">
+            <video id="coupleVideo" playsinline loop muted poster="us.jpg">
+                <source src="video.mp4" type="video/mp4">
+                <source src="our_video.mp4" type="video/mp4">
+            </video>
+            <button class="video-play-btn" id="vidPlayBtn">▶ Play Memory Video 🎥</button>
+        </div>
+        <p class="video-cap">Every moment with you is a movie I want to rewatch forever 🎬</p>
+    </div>
 
     <div id="ending" class="sec">
         <p class="wl" id="wL">watch the stars…</p>
@@ -620,7 +639,26 @@ if ($rBtn) {
     });
 }
 
-/* Parchment Letter Modal Handlers */
+/* Video Play Handler */
+const $vid = document.getElementById('coupleVideo'), $vBtn = document.getElementById('vidPlayBtn');
+if ($vid && $vBtn) {
+    $vBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        if ($vid.paused) {
+            $vid.muted = false;
+            $vid.play().then(() => {
+                $vBtn.textContent = '⏸ Pause Video';
+            }).catch(() => {
+                $vid.muted = true;
+                $vid.play();
+                $vBtn.textContent = '⏸ Pause Video';
+            });
+        } else {
+            $vid.pause();
+            $vBtn.textContent = '▶ Play Memory Video 🎥';
+        }
+    });
+}
 const $lModal = document.getElementById('letterModal');
 const $envBtn = document.getElementById('envelopeBtn');
 const $clsBtn = document.getElementById('closeLetterBtn');
