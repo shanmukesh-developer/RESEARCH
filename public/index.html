@@ -253,7 +253,11 @@ let petalTimer=0;
    ═══════════════════════════════════════ */
 const $d=document.getElementById('cDot'),$g=document.getElementById('cGlow');
 function onPtr(e){const px=e.clientX||e.touches?.[0]?.clientX||mX;const py=e.clientY||e.touches?.[0]?.clientY||mY;mX=px;mY=py;$d.style.left=$g.style.left=px+'px';$d.style.top=$g.style.top=py+'px';if(phase!=='prelude'&&Math.random()<.35)sparkles.push({x:px+(Math.random()-.5)*8,y:py+(Math.random()-.5)*8,r:Math.random()*2+.5,life:1,vx:(Math.random()-.5)*1.2,vy:(Math.random()-.5)*1.2-.5,h:35+Math.random()*25})}
-addEventListener('mousemove',onPtr);addEventListener('touchmove',e=>{e.preventDefault();onPtr(e)},{passive:false});
+addEventListener('mousemove',onPtr);
+addEventListener('touchmove',e=>{
+    if(!scrollOK) e.preventDefault();
+    onPtr(e);
+},{passive:false});
 
 /* TAP = spawn hearts */
 function tapHearts(x,y){
@@ -365,7 +369,12 @@ $lB.addEventListener('click',()=>{
     },3200);
 });
 
-function scEn(on){document.documentElement.style.overflow=on?'auto':'hidden';document.body.style.overflow=on?'auto':'hidden';scrollOK=on}
+function scEn(on){
+    document.documentElement.style.overflowY=on?'auto':'hidden';
+    document.body.style.overflowY=on?'auto':'hidden';
+    document.body.style.webkitOverflowScrolling='touch';
+    scrollOK=on;
+}
 
 /* ═══════════════════════════════════════
    SCROLL OBSERVER
