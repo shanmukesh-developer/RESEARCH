@@ -5,6 +5,8 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.json());
+
 /* ═══════════════════════════════════════
    POSTGRESQL
    ═══════════════════════════════════════ */
@@ -26,7 +28,12 @@ async function initDB() {
                 visited_at TIMESTAMPTZ DEFAULT NOW(),
                 user_agent TEXT,
                 ip         TEXT
-            )
+            );
+            CREATE TABLE IF NOT EXISTS replies (
+                id         SERIAL PRIMARY KEY,
+                sent_at    TIMESTAMPTZ DEFAULT NOW(),
+                message    TEXT
+            );
         `);
         console.log('✅ Database initialized');
     } catch (err) {
@@ -75,6 +82,19 @@ app.get('/api/visits', async (req, res) => {
         res.json({ count: parseInt(result.rows[0].count), success: true });
     } catch (err) {
         res.json({ count: 0, success: false });
+    }
+});
+
+/* API — Save secret reply / heart from Kavya */
+app.post('/api/reply', async (req, res) => {
+    const { message } = req.body || {};
+    if (!pool) return res.json({ success: true, local: true });
+    try {
+        await pool.query('INSERT INTO replies (message) VALUES ($1)', [message || 'Sent a heart ❤️']);
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Reply error:', err.message);
+        res.json({ success: false });
     }
 });
 

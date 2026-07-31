@@ -98,6 +98,50 @@
         .ft{font-size:clamp(.92rem,2.8vw,1.28rem);font-weight:300;font-style:italic;line-height:2.4;max-width:550px;opacity:0;transform:translateY(20px);transition:opacity 4s,transform 4s}
         .ft.on{opacity:1;transform:none}
 
+        /* Floating Music Button */
+        #musicBtn{position:fixed;top:20px;right:20px;z-index:9999;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity 1.5s,transform 0.3s,background 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+        #musicBtn.on{opacity:1}
+        #musicBtn:hover{transform:scale(1.08);background:rgba(255,255,255,0.15)}
+        .eq-bars{display:flex;align-items:flex-end;gap:3px;height:14px}
+        .eq-bar{width:3px;height:100%;background:#ffd700;border-radius:2px;animation:eqAnim 1.2s ease-in-out infinite alternate}
+        .eq-bar:nth-child(1){animation-delay:0s}
+        .eq-bar:nth-child(2){animation-delay:0.3s}
+        .eq-bar:nth-child(3){animation-delay:0.6s}
+        #musicBtn.paused .eq-bar{animation-play-state:paused;height:3px}
+        @keyframes eqAnim{0%{height:3px}100%{height:14px}}
+
+        /* 3D Photo Flip Cards */
+        .ps .fw{perspective:1000px;cursor:pointer}
+        .ps .card-inner{position:relative;width:100%;height:100%;transition:transform 0.8s cubic-bezier(0.4,0,0.2,1);transform-style:preserve-3d}
+        .ps .fw.flipped .card-inner{transform:rotateY(180deg)}
+        .ps .card-front,.ps .card-back{backface-visibility:hidden;border-radius:18px;overflow:hidden}
+        .ps .card-back{position:absolute;inset:0;background:linear-gradient(135deg,rgba(20,15,30,0.95),rgba(40,20,50,0.95));border:1px solid rgba(255,215,0,0.3);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;transform:rotateY(180deg)}
+        .ps .card-back p{font-size:clamp(0.95rem,2.8vw,1.25rem);font-style:italic;line-height:1.8;color:#ffe6c8;font-family:'Cormorant Garamond',serif}
+        .ps .flip-hint{margin-top:10px;font-size:0.68rem;letter-spacing:2px;font-family:'Outfit',sans-serif;color:rgba(255,215,0,0.6);text-transform:uppercase}
+
+        /* Milestone Timeline */
+        .timeline-wrap{max-width:540px;width:100%;margin:40px auto;position:relative;padding:0 20px}
+        .timeline-wrap::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(255,215,0,0.4),rgba(255,107,138,0.4),transparent);transform:translateX(-50%)}
+        .t-item{position:relative;margin:36px 0;opacity:0;transform:translateY(20px);transition:opacity 1.5s,transform 1.5s}
+        .timeline-wrap.seen .t-item{opacity:1;transform:none}
+        .t-dot{width:12px;height:12px;border-radius:50%;background:#ffd700;box-shadow:0 0 15px #ffd700;margin:0 auto 12px;position:relative;z-index:2}
+        .t-date{font-family:'Outfit',sans-serif;font-size:0.72rem;letter-spacing:3px;color:#ffaa50;text-transform:uppercase}
+        .t-title{font-size:clamp(1.1rem,3vw,1.4rem);font-style:italic;color:#fff;margin-top:4px}
+        .t-desc{font-size:0.88rem;color:rgba(255,255,255,0.7);font-family:'Outfit',sans-serif;margin-top:6px;font-weight:200}
+
+        /* Secret Reply Box */
+        .reply-box{margin-top:36px;display:flex;flex-direction:column;align-items:center;gap:12px;max-width:420px;width:90vw;opacity:0;transform:translateY(20px);transition:opacity 3s 1s,transform 3s 1s}
+        .ft.on~.reply-box{opacity:1;transform:none}
+        .reply-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,215,0,0.25);border-radius:30px;padding:12px 20px;color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.05rem;outline:none;text-align:center;transition:border-color 0.3s,box-shadow 0.3s}
+        .reply-input:focus{border-color:rgba(255,215,0,0.6);box-shadow:0 0 20px rgba(255,215,0,0.2)}
+        .reply-btn{background:linear-gradient(135deg,rgba(255,107,138,0.8),rgba(255,215,0,0.8));border:none;color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.05rem;padding:10px 32px;border-radius:30px;cursor:pointer;letter-spacing:2px;text-shadow:0 0 10px rgba(0,0,0,0.3);box-shadow:0 0 25px rgba(255,107,138,0.3);transition:transform 0.3s,box-shadow 0.3s}
+        .reply-btn:hover{transform:scale(1.05);box-shadow:0 0 40px rgba(255,107,138,0.5)}
+        .reply-msg{font-family:'Outfit',sans-serif;font-size:0.8rem;color:#ffd700;letter-spacing:2px;opacity:0;transition:opacity 1s}
+
+        /* Live Time Ticker */
+        .time-ticker{font-family:'Outfit',sans-serif;font-size:0.75rem;letter-spacing:3px;color:rgba(255,215,0,0.7);text-transform:uppercase;margin-top:14px;font-weight:200;opacity:0;transition:opacity 2s 1s}
+        .gf-t.on~.time-ticker{opacity:1}
+
         /* Couple Photo Finale */
         .couple-wrap{position:relative;max-width:340px;width:78vw;padding:4px;border-radius:24px;background:conic-gradient(from var(--ba),rgba(255,107,138,0.7),rgba(255,215,0,0.7),rgba(255,140,180,0.7),rgba(255,215,0,0.7));animation:bs 3s linear infinite;opacity:0;transform:scale(0.85) translateY(30px);transition:opacity 3s ease,transform 3s ease;box-shadow:0 0 50px rgba(255,107,138,0.3),0 0 100px rgba(255,215,0,0.15);margin-bottom:32px}
         .couple-wrap.on{opacity:1;transform:scale(1) translateY(0)}
@@ -107,7 +151,7 @@
         .couple-wrap.on+.couple-cap{opacity:1;transform:translateY(0)}
 
         /* Visit counter */
-        .vc{margin-top:40px;font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:200;letter-spacing:3px;color:rgba(255,255,255,.25);opacity:0;transition:opacity 3s 2s}
+        .vc{margin-top:30px;font-family:'Outfit',sans-serif;font-size:.7rem;font-weight:200;letter-spacing:3px;color:rgba(255,255,255,.25);opacity:0;transition:opacity 3s 2s}
         .ft.on~.vc{opacity:1}
 
         .hidden{display:none!important}
@@ -137,29 +181,106 @@
     <source src="Darkhaast Shivaay 320 Kbps.mp3" type="audio/mpeg">
 </audio>
 
+<div id="musicBtn">
+    <div class="eq-bars">
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+        <div class="eq-bar"></div>
+    </div>
+</div>
+
 <div id="content">
     <div id="reveal" class="sec">
         <div class="gf-t" id="gfT">Happy Girlfriend's Day ❤️</div>
         <div class="her-n" id="herN">Kavya</div>
+        <div class="time-ticker" id="timeTicker">Loved every second with you</div>
         <div class="sHint" id="sH"><span>scroll</span><div class="chev"></div></div>
     </div>
 
     <div class="sec qs" data-q="&quot;You turned ordinary days into my favorite memories.&quot;"><div class="qw"></div></div>
-    <div class="sec ps"><div class="fw"><div class="inn"><img src="kavya1.png" alt="" loading="lazy"></div></div><p class="cap">the one who made my heart skip…</p></div>
+    
+    <div class="sec ps">
+        <div class="fw" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="card-front"><div class="inn"><img src="kavya1.png" alt="" loading="lazy"></div></div>
+                <div class="card-back"><p>"The exact moment I knew you were my person. That smile changed my whole world."</p></div>
+            </div>
+        </div>
+        <p class="cap">the one who made my heart skip…</p>
+        <div class="flip-hint">✨ tap photo to reveal secret note ✨</div>
+    </div>
 
     <div class="sec qs" data-q="&quot;Your smile became my favorite sunrise.&quot;"><div class="qw"></div></div>
-    <div class="sec ps"><div class="fw"><div class="inn"><img src="kavya2.png" alt="" loading="lazy"></div></div><p class="cap">and every moment became poetry.</p></div>
+    
+    <div class="sec ps">
+        <div class="fw" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="card-front"><div class="inn"><img src="kavya2.png" alt="" loading="lazy"></div></div>
+                <div class="card-back"><p>"Every single time I look at you, I fall in love all over again."</p></div>
+            </div>
+        </div>
+        <p class="cap">and every moment became poetry.</p>
+        <div class="flip-hint">✨ tap photo to reveal secret note ✨</div>
+    </div>
 
     <div class="sec qs" data-q="&quot;In a world full of people, my heart somehow found you.&quot;"><div class="qw"></div></div>
-    <div class="sec ps"><div class="fw"><div class="inn"><img src="kavya3.png" alt="" loading="lazy"></div></div><p class="cap">my favorite view in any crowd.</p></div>
+    
+    <div class="sec ps">
+        <div class="fw" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="card-front"><div class="inn"><img src="kavya3.png" alt="" loading="lazy"></div></div>
+                <div class="card-back"><p>"Standing next to you in the crowd — my absolute favorite place in the universe."</p></div>
+            </div>
+        </div>
+        <p class="cap">my favorite view in any crowd.</p>
+        <div class="flip-hint">✨ tap photo to reveal secret note ✨</div>
+    </div>
 
     <div class="sec qs" data-q="&quot;Thank you for making love feel like home.&quot;"><div class="qw"></div></div>
-    <div class="sec ps"><div class="fw"><div class="inn"><img src="kavya4.png" alt="" loading="lazy"></div></div><p class="cap">the girl who changed my world. ✨</p></div>
+    
+    <div class="sec ps">
+        <div class="fw" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="card-front"><div class="inn"><img src="kavya4.png" alt="" loading="lazy"></div></div>
+                <div class="card-back"><p>"The girl who changed my world forever. My home, my heart, my everything."</p></div>
+            </div>
+        </div>
+        <p class="cap">the girl who changed my world. ✨</p>
+        <div class="flip-hint">✨ tap photo to reveal secret note ✨</div>
+    </div>
+
+    <!-- Timeline Section -->
+    <div class="sec" id="timelineSec">
+        <div class="timeline-wrap" id="timeline">
+            <div class="t-item">
+                <div class="t-dot"></div>
+                <div class="t-date">CHAPTER I</div>
+                <div class="t-title">The First Hello 💫</div>
+                <div class="t-desc">The quiet moment our paths crossed and everything changed forever.</div>
+            </div>
+            <div class="t-item">
+                <div class="t-dot"></div>
+                <div class="t-date">CHAPTER II</div>
+                <div class="t-title">Falling For You 🌹</div>
+                <div class="t-desc">When I realized your laugh was my favorite sound in the world.</div>
+            </div>
+            <div class="t-item">
+                <div class="t-dot"></div>
+                <div class="t-date">CHAPTER III</div>
+                <div class="t-title">My Home & Heart ✨</div>
+                <div class="t-desc">Every ordinary day transformed into an extraordinary memory.</div>
+            </div>
+            <div class="t-item">
+                <div class="t-dot"></div>
+                <div class="t-date">CHAPTER IV</div>
+                <div class="t-title">Forever & Always ❤️</div>
+                <div class="t-desc">Our story is just getting started, and I choose you every single day.</div>
+            </div>
+        </div>
+    </div>
 
     <div class="sec qs" data-q="&quot;You are my today and all of my tomorrows.&quot;"><div class="qw"></div></div>
     <div class="sec qs" data-q="&quot;I fell in love with your soul before I could even touch your skin.&quot;"><div class="qw"></div></div>
-    <div class="sec qs" data-q="&quot;You make the world feel less heavy just by being in it.&quot;"><div class="qw"></div></div>
-    <div class="sec qs" data-q="&quot;With you, even silence feels like a conversation.&quot;"><div class="qw"></div></div>
 
     <div id="ending" class="sec">
         <p class="wl" id="wL">watch the stars…</p>
@@ -174,6 +295,14 @@
         </div>
         <div class="couple-cap" id="cCap">You & Me — Forever & Always ❤️</div>
         <p class="ft" id="fM">"If I could give you one thing in life,<br>it would be the ability to see yourself through my eyes.<br><br>Then you'd know how truly wonderful you are.<br><br>Happy Girlfriend's Day.<br><br>Thank you for being the best part of my world. ❤️"</p>
+        
+        <!-- Secret Reply Box -->
+        <div class="reply-box">
+            <input type="text" id="replyInput" class="reply-input" placeholder="Write a secret note to Shanmukh… 💕">
+            <button id="replyBtn" class="reply-btn">Send Him a Heart ❤️</button>
+            <div id="replyMsg" class="reply-msg"></div>
+        </div>
+
         <p class="vc" id="vc"></p>
     </div>
 </div>
@@ -338,7 +467,8 @@ $pre.addEventListener('click',()=>{
     setTimeout(()=>$L1.querySelectorAll('.w').forEach(w=>w.classList.add('on')),2800);
     setTimeout(()=>$L2.querySelectorAll('.w').forEach(w=>w.classList.add('on')),7500);
     setTimeout(()=>$sB.classList.add('on'),11000);
-    /* Track visit */
+    /* Track visit & show music button */
+    document.getElementById('musicBtn').classList.add('on');
     fetch('/api/visit').then(r=>r.json()).then(d=>{
         if(d.success&&d.count) document.getElementById('vc').textContent='opened '+d.count+(d.count===1?' time':' times')+' with love \u2764\ufe0f';
     }).catch(()=>{});
@@ -369,6 +499,39 @@ $lB.addEventListener('click',()=>{
     },3200);
 });
 
+/* Music Toggle Button */
+const $mBtn = document.getElementById('musicBtn');
+$mBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    if (bgm.paused) {
+        bgm.play().catch(()=>{});
+        $mBtn.classList.remove('paused');
+    } else {
+        bgm.pause();
+        $mBtn.classList.add('paused');
+    }
+});
+
+/* Secret Reply Button */
+const $rBtn = document.getElementById('replyBtn'), $rIn = document.getElementById('replyInput'), $rMsg = document.getElementById('replyMsg');
+if ($rBtn) {
+    $rBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        const val = $rIn.value.trim() || 'Sent a heart ❤️';
+        hRain();
+        for(let i=0;i<15;i++) tapHearts(W/2, H/2);
+        fetch('/api/reply', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: val })
+        }).catch(()=>{});
+        $rMsg.textContent = 'Sent to Shanmukh\'s heart with love ❤️';
+        $rMsg.style.opacity = '1';
+        $rBtn.disabled = true;
+        $rBtn.style.opacity = '0.6';
+    });
+}
+
 function scEn(on){
     document.documentElement.style.overflowY=on?'auto':'hidden';
     document.body.style.overflowY=on?'auto':'hidden';
@@ -381,7 +544,7 @@ function scEn(on){
    ═══════════════════════════════════════ */
 function initObs(){
     const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.intersectionRatio>.25)e.target.classList.add('seen');else if(e.intersectionRatio<.05)e.target.classList.remove('seen')})},{threshold:[0,.05,.25]});
-    document.querySelectorAll('.qs,.ps').forEach(s=>io.observe(s));
+    document.querySelectorAll('.qs,.ps,.timeline-wrap').forEach(s=>io.observe(s));
     const eio=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting&&!endDone){endDone=true;formILY();setTimeout(()=>$wL.classList.add('on'),2800);setTimeout(()=>$lB.classList.add('on'),5200)}})},{threshold:.25});
     eio.observe(document.getElementById('ending'));
 }
