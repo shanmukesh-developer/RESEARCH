@@ -158,6 +158,9 @@
         .couple-cap{font-family:'Great Vibes',cursive;font-size:clamp(1.8rem,6vw,3.2rem);color:#ffb4c8;margin-bottom:20px;opacity:0;transform:translateY(15px);transition:opacity 2.5s 1s ease,transform 2.5s 1s ease;text-shadow:0 0 25px rgba(255,107,138,0.5)}
         .couple-wrap.on~.couple-cap{opacity:1;transform:translateY(0)}
 
+        /* Performance & GPU acceleration */
+        .sec,.fw,.couple-wrap,.video-wrap,.timeline-wrap,.ol,.gf-t,.her-n{will-change:transform,opacity;transform:translateZ(0)}
+
         /* Video Memory Reel */
         .video-wrap{position:relative;max-width:340px;width:80vw;border-radius:24px;overflow:hidden;padding:3px;background:conic-gradient(from var(--ba),rgba(255,215,0,0.6),rgba(255,107,138,0.5),rgba(180,160,255,0.5),rgba(255,215,0,0.6));animation:bs 4s linear infinite;box-shadow:0 0 50px rgba(255,107,138,0.25);margin:0 auto}
         .video-wrap video{display:block;width:100%;height:auto;border-radius:22px;background:#000}
@@ -542,16 +545,16 @@ bgm.addEventListener('timeupdate', () => {
 });
 
 function drawVisualizer(){
-    if(!analyser)return;analyser.getByteFrequencyData(freqData);
+    if(!analyser || fr % 2 !== 0) return;
+    analyser.getByteFrequencyData(freqData);
     MX.clearRect(0,0,W,80);
     const bars=analyser.frequencyBinCount;const bw=W/bars;
-    for(let i=0;i<bars;i++){
-        const v=freqData[i]/255;const h=v*55;
+    for(let i=0;i<bars;i+=2){
+        const v=freqData[i]/255;const h=v*50;
+        if(h < 2) continue;
         const hue=35+v*20;
-        const grd=MX.createLinearGradient(0,80-h,0,80);
-        grd.addColorStop(0,`hsla(${hue},100%,70%,${v*.5})`);
-        grd.addColorStop(1,`hsla(${hue},100%,50%,0)`);
-        MX.fillStyle=grd;MX.fillRect(i*bw,80-h,bw-.5,h);
+        MX.fillStyle=`hsla(${hue},100%,65%,${v*.45})`;
+        MX.fillRect(i*bw,80-h,bw*1.8,h);
     }
 }
 
@@ -768,9 +771,27 @@ function initObs(){
 addEventListener('scroll',()=>{sY=scrollY;if(!scrollOK)return;const max=document.documentElement.scrollHeight-innerHeight;$prog.style.width=(sY/max*100)+'%'});
 
 /* ═══════════════════════════════════════
-   CONSTELLATIONS
+   CONSTELLATIONS (Optimized distance squared)
    ═══════════════════════════════════════ */
-function drawCon(){if(stars.length<20)return;X.lineWidth=.3;for(let i=0;i<stars.length;i+=3){const a=stars[i];if(a.o<.2)continue;for(let j=i+1;j<Math.min(i+8,stars.length);j++){const b=stars[j];if(b.o<.2)continue;const dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);if(d<85){const al=(1-d/85)*.06*Math.min(a.o,b.o);X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);X.strokeStyle=`rgba(180,200,255,${al})`;X.stroke()}}}}
+const MAX_D2 = 85 * 85;
+function drawCon(){
+    if(stars.length<20)return;
+    X.lineWidth=.3;
+    const maxN = Math.min(stars.length, 220);
+    for(let i=0;i<maxN;i+=4){
+        const a=stars[i];if(!a || a.o<.2)continue;
+        for(let j=i+1;j<Math.min(i+6,maxN);j++){
+            const b=stars[j];if(!b || b.o<.2)continue;
+            const dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy;
+            if(d2<MAX_D2){
+                const d=Math.sqrt(d2);
+                const al=(1-d/85)*.06*Math.min(a.o,b.o);
+                X.beginPath();X.moveTo(a.x,a.y);X.lineTo(b.x,b.y);
+                X.strokeStyle=`rgba(180,200,255,${al})`;X.stroke();
+            }
+        }
+    }
+}
 
 /* ═══════════════════════════════════════
    RENDER
