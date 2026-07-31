@@ -420,9 +420,78 @@ let analyser,freqData,audioCtx;
    BUTTERFLIES (🦋) & BLOSSOMS (🌸)
    ═══════════════════════════════════════ */
 class Butterfly{
-    constructor(){this.x=Math.random()*W;this.y=H+20;this.sz=Math.random()*12+16;this.vx=(Math.random()-.5)*1.5;this.vy=-Math.random()*1.2-.8;this.wing=0;this.wingSpd=Math.random()*.15+.1;this.life=1}
-    update(){this.x+=this.vx+Math.sin(this.wing*0.5)*0.8;this.y+=this.vy;this.wing+=this.wingSpd;if(this.y<-30)this.life=0;return this.life>0}
-    draw(){X.save();X.translate(this.x,this.y);X.font=this.sz+'px serif';X.globalAlpha=Math.min(1,this.y/H*1.5);X.fillText('🦋',0,0);X.restore()}
+    constructor(){
+        this.x=Math.random()*W;
+        this.y=H+30;
+        this.sz=Math.random()*8+10;
+        this.vx=(Math.random()-.5)*1.8;
+        this.vy=-Math.random()*1.4-.8;
+        this.wing=Math.random()*Math.PI*2;
+        this.wingSpd=Math.random()*.18+.12;
+        this.hue=330+Math.random()*40;
+        this.ang=0;
+        this.life=1;
+    }
+    update(){
+        this.wing+=this.wingSpd;
+        this.x+=this.vx+Math.sin(this.wing*0.4)*1.2;
+        this.y+=this.vy;
+        this.ang=Math.atan2(this.vy, this.vx+Math.sin(this.wing*0.4)*1.2) + Math.PI/2;
+        if(this.y<-40) this.life=0;
+        return this.life>0;
+    }
+    draw(){
+        const wScale = Math.max(0.1, Math.abs(Math.sin(this.wing)));
+        X.save();
+        X.translate(this.x, this.y);
+        X.rotate(this.ang);
+        X.globalAlpha = Math.min(1, this.y / H * 2);
+
+        /* Glow */
+        X.shadowColor = `hsla(${this.hue}, 100%, 70%, 0.8)`;
+        X.shadowBlur = 10;
+
+        /* Left Top Wing */
+        X.fillStyle = `hsla(${this.hue}, 100%, 75%, 0.85)`;
+        X.beginPath();
+        X.ellipse(-this.sz * 0.7 * wScale, -this.sz * 0.5, this.sz * 0.7 * wScale, this.sz * 0.4, -0.2, 0, Math.PI * 2);
+        X.fill();
+
+        /* Right Top Wing */
+        X.beginPath();
+        X.ellipse(this.sz * 0.7 * wScale, -this.sz * 0.5, this.sz * 0.7 * wScale, this.sz * 0.4, 0.2, 0, Math.PI * 2);
+        X.fill();
+
+        /* Left Bottom Wing */
+        X.fillStyle = `hsla(${this.hue + 20}, 100%, 80%, 0.75)`;
+        X.beginPath();
+        X.ellipse(-this.sz * 0.5 * wScale, this.sz * 0.2, this.sz * 0.5 * wScale, this.sz * 0.3, 0.3, 0, Math.PI * 2);
+        X.fill();
+
+        /* Right Bottom Wing */
+        X.beginPath();
+        X.ellipse(this.sz * 0.5 * wScale, this.sz * 0.2, this.sz * 0.5 * wScale, this.sz * 0.3, -0.3, 0, Math.PI * 2);
+        X.fill();
+
+        /* Body */
+        X.shadowBlur = 0;
+        X.fillStyle = '#ffd700';
+        X.beginPath();
+        X.ellipse(0, 0, 1.8, this.sz * 0.6, 0, 0, Math.PI * 2);
+        X.fill();
+
+        /* Antennae */
+        X.strokeStyle = '#ffd700';
+        X.lineWidth = 0.8;
+        X.beginPath();
+        X.moveTo(-1, -this.sz * 0.5);
+        X.quadraticCurveTo(-this.sz * 0.4, -this.sz * 0.9, -this.sz * 0.5, -this.sz);
+        X.moveTo(1, -this.sz * 0.5);
+        X.quadraticCurveTo(this.sz * 0.4, -this.sz * 0.9, this.sz * 0.5, -this.sz);
+        X.stroke();
+
+        X.restore();
+    }
 }
 class Blossom{
     constructor(){this.x=Math.random()*W;this.y=-20;this.sz=Math.random()*10+14;this.vx=(Math.random()-.5)*0.8;this.vy=Math.random()*0.8+0.5;this.rot=Math.random()*Math.PI*2;this.life=1}
