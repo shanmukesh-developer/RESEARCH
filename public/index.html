@@ -321,6 +321,7 @@
 
     <!-- Video Memory Reel Section -->
     <div class="sec video-sec" id="videoSec">
+        <div class="gf-t" style="font-size:clamp(1.2rem,3.8vw,2rem);margin-bottom:24px;text-shadow:0 0 20px rgba(255,215,0,0.3)">Our Memories in Motion 🎥</div>
         <div class="video-wrap">
             <video id="coupleVideo" playsinline loop poster="us1.png">
                 <source id="vidSrc" src="video2.mp4" type="video/mp4">
@@ -328,9 +329,9 @@
             <button class="video-play-btn" id="vidPlayBtn">▶ Play Memory Video 🎥</button>
         </div>
         <div class="v-dots">
-            <button class="v-dot active" onclick="switchVideo(0)">Video 1 🎬</button>
-            <button class="v-dot" onclick="switchVideo(1)">Video 2 🎥</button>
-            <button class="v-dot" onclick="switchVideo(2)">Video 3 ✨</button>
+            <button class="v-dot active" onclick="switchVideo(0)">Memory 1 🎬</button>
+            <button class="v-dot" onclick="switchVideo(1)">Memory 2 🎥</button>
+            <button class="v-dot" onclick="switchVideo(2)">Memory 3 ✨</button>
         </div>
         <p class="video-cap">Every moment with you is a movie I want to rewatch forever 🎬</p>
     </div>
@@ -629,14 +630,21 @@ $lB.addEventListener('click',()=>{
 /* Couple Photo Slider JS */
 let cSlideIdx = 0;
 let cSlideTimer = null;
+const C_CAPS = [
+    "Looking into your eyes is where I find my peace ✨",
+    "Your smile makes every single moment brighter 🌹",
+    "You & Me — Forever & Always ❤️"
+];
 
 function setCoupleSlide(idx) {
     const slides = document.querySelectorAll('.c-slide');
     const dots = document.querySelectorAll('.c-dot');
+    const $cap = document.getElementById('cCap');
     if (!slides.length) return;
     cSlideIdx = (idx + slides.length) % slides.length;
     slides.forEach((s, i) => s.classList.toggle('active', i === cSlideIdx));
     dots.forEach((d, i) => d.classList.toggle('active', i === cSlideIdx));
+    if ($cap) $cap.textContent = C_CAPS[cSlideIdx];
     haptic();
 }
 
